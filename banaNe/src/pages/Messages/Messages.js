@@ -7,6 +7,7 @@ import auth from '@react-native-firebase/auth';
 import styles from './Messages.style';
 import parseContentData from '../../utils/parseContentData';
 import MessageCard from '../../components/card/MessageCard/MessageCard';
+import {showMessage} from 'react-native-flash-message';
 
 const initialFormValues = {
   usermail: '',
@@ -45,7 +46,7 @@ const Messages = () => {
       text: content,
       username: usermail.split('@')[0],
       date: new Date().toISOString(),
-      dislike:0
+      dislike: 0,
     };
 
     database().ref('messages/').push(contentObj);
@@ -57,8 +58,24 @@ const Messages = () => {
       .update({dislike: item.dislike + 1});
   }
 
+  function handleDelete(x) {
+    if (auth().currentUser.email.split('@')[0] == x.username) {
+      console.log('first');
+      database().ref(`messages/${x.id}/`).remove();
+    }
+
+    showMessage({
+      message: 'Mesaj Size Ait Değil',
+      type: 'danger',
+    });
+  }
+
   const renderContent = ({item}) => (
-    <MessageCard message={item} onBanane={() => handleBanane(item)} />
+    <MessageCard
+      ondelete={() => handleDelete(item)}
+      message={item}
+      onBanane={() => handleBanane(item)}
+    />
   );
 
   return (

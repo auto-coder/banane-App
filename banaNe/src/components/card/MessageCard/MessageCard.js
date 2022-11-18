@@ -1,15 +1,15 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Button, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import styles from './MessageCard.style';
 import {formatDistance, parseISO} from 'date-fns';
 import {tr} from 'date-fns/locale';
 
-const MessageCard = ({message ,onBanane}) => {
+const MessageCard = ({message, onBanane,ondelete}) => {
   const formattedDate = formatDistance(parseISO(message.date), new Date(), {
     addSuffix: true,
     locale: tr,
   });
-  console.log(message)
+  console.log(message);
 
   return (
     <View style={styles.container}>
@@ -26,10 +26,13 @@ const MessageCard = ({message ,onBanane}) => {
               <Text style={styles.dislike_count_text}>{message.dislike}</Text>
             </View>
           )}
+
           <Text style={styles.dislike_text}> bana ne?</Text>
         </TouchableOpacity>
+        <TouchableOpacity style={styles.dislike_container} onPress={ondelete}>
+          <Text style={styles.dislike_text}>delete</Text>
+        </TouchableOpacity>
       </View>
-
     </View>
   );
 };

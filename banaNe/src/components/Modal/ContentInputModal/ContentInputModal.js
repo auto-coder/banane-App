@@ -31,7 +31,7 @@ const ContentInputModal = ({visible, onClose, onSend}) => {
             multiline
           />
         </View>
-        <Button text="Gönder" onPress={() => onSend(text)} />
+        <Button text="Gönder" onPress={handleSend} />
       </View>
     </Modal>
   );

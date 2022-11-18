@@ -58,11 +58,11 @@ const LoginPage = ({navigation}) => {
               isSecure
               iconName="key"
             />
-            <Button text="Giriş Yap" onPress={handleSubmit} />
+            <Button text="Giriş Yap" loading={loading} onPress={handleSubmit} />
           </>
         )}
       </Formik>
-      <Button theme="secondary" text="Kayıt Ol" onPress={handleSignUp} />
+      <Button theme="secondary" loading={loading} text="Kayıt Ol" onPress={handleSignUp} />
     </View>
   );
 };
