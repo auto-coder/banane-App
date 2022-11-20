@@ -3,14 +3,13 @@ import React from 'react';
 import styles from './MessageCard.style';
 import {formatDistance, parseISO} from 'date-fns';
 import {tr} from 'date-fns/locale';
+import auth from '@react-native-firebase/auth';
 
-const MessageCard = ({message, onBanane,ondelete}) => {
+const MessageCard = ({message, onBanane, ondelete}) => {
   const formattedDate = formatDistance(parseISO(message.date), new Date(), {
     addSuffix: true,
     locale: tr,
   });
-  console.log(message);
-
   return (
     <View style={styles.container}>
       <View style={styles.inner_container}>
@@ -29,9 +28,13 @@ const MessageCard = ({message, onBanane,ondelete}) => {
 
           <Text style={styles.dislike_text}> bana ne?</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.dislike_container} onPress={ondelete}>
-          <Text style={styles.dislike_text}>delete</Text>
-        </TouchableOpacity>
+        {auth().currentUser.email == message.usermail ? (
+          <TouchableOpacity style={styles.delete_container} onPress={ondelete}>
+            <Text style={styles.delete_text}>X</Text>
+          </TouchableOpacity>
+        ) : (
+          <></>
+        )}
       </View>
     </View>
   );

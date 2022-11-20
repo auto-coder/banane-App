@@ -30,16 +30,23 @@ const SignPage = ({navigation}) => {
     }
 
     try {
-      await auth().createUserWithEmailAndPassword(
-        formValues.usermail,
-        formValues.password,
-      );
-      showMessage({
-        message: 'Başarılı',
-        type: 'success',
-      });
-      setLoading(false);
-      navigation.navigate('LoginPage');
+      if (formValues.usermail == '' || formValues.password == '') {
+        showMessage({
+          message: 'Boş Bırakılamaz',
+          type: 'danger',
+        });
+      } else {
+        await auth().createUserWithEmailAndPassword(
+          formValues.usermail,
+          formValues.password,
+        );
+        showMessage({
+          message: 'Başarılı',
+          type: 'success',
+        });
+        setLoading(false);
+        navigation.navigate('LoginPage');
+      }
     } catch (error) {
       showMessage({
         message: authErrorMessageParser(error.code),
@@ -47,7 +54,6 @@ const SignPage = ({navigation}) => {
       });
       setLoading(false);
     }
-    console.log(formValues);
   };
 
   return (
@@ -67,26 +73,21 @@ const SignPage = ({navigation}) => {
               onChangeText={handleChange('password')}
               value={values.password}
               placeholder={'Şifre Giriniz'}
-              iconName='key'
+              iconName="key"
               isSecure
             />
             <Input
               onChangeText={handleChange('repassword')}
               value={values.repassword}
               placeholder={'Şifre Tekrar Giriniz'}
-              iconName='key'
+              iconName="key"
               isSecure
             />
             <Button text="Kayıt Ol" loading={loading} onPress={handleSubmit} />
           </>
         )}
       </Formik>
-      <Button
-        text="Geri"
-        theme="secondary"
-        loading={loading}
-        onPress={handleLogin}
-      />
+      <Button text="Geri" theme="secondary" onPress={handleLogin} />
     </View>
   );
 };

@@ -43,6 +43,7 @@ const Messages = () => {
     const usermail = auth().currentUser.email;
 
     const contentObj = {
+      usermail: usermail,
       text: content,
       username: usermail.split('@')[0],
       date: new Date().toISOString(),
@@ -59,15 +60,14 @@ const Messages = () => {
   }
 
   function handleDelete(x) {
-    if (auth().currentUser.email.split('@')[0] == x.username) {
-      console.log('first');
+    if (auth().currentUser.email == x.usermail) {
       database().ref(`messages/${x.id}/`).remove();
+    } else {
+      showMessage({
+        message: 'Mesaj Size Ait Değil',
+        type: 'danger',
+      });
     }
-
-    showMessage({
-      message: 'Mesaj Size Ait Değil',
-      type: 'danger',
-    });
   }
 
   const renderContent = ({item}) => (

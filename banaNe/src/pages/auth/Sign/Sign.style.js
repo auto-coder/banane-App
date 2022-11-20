@@ -4,7 +4,7 @@ import colors from "../../../styles/colors"
 export default StyleSheet.create({
     container:{
         flex:1,
-        backgroundColor:"#c4c4c4"
+        backgroundColor:"white"
     },
     body_container:{
         flex:1,

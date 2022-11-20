@@ -21,21 +21,26 @@ const LoginPage = ({navigation}) => {
 
   async function handleFormSubmit(formValues) {
     try {
-      setLoading(true);
-      await auth().signInWithEmailAndPassword(
-        formValues.usermail,
-        formValues.password,
-      );
-      setLoading(false);
-      console.log(formValues);
+      if (formValues.usermail == '' || formValues.password == '') {
+        showMessage({
+          message: 'Boş Bırakılamaz',
+          type: 'danger',
+        });
+      } else {
+        setLoading(true);
+        await auth().signInWithEmailAndPassword(
+          formValues.usermail,
+          formValues.password,
+        );
+        setLoading(false);
+      }
+
     } catch (error) {
-      console.log(error)
       showMessage({
         message: authErrorMessageParser(error.code),
         type: 'danger',
       });
       setLoading(false);
-      console.log(error);
     }
   }
 
@@ -62,7 +67,7 @@ const LoginPage = ({navigation}) => {
           </>
         )}
       </Formik>
-      <Button theme="secondary" loading={loading} text="Kayıt Ol" onPress={handleSignUp} />
+      <Button theme='secondary' text="Kayıt Ol" onPress={handleSignUp} />
     </View>
   );
 };
